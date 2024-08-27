@@ -7,6 +7,7 @@ aplicación desarrollada con `Spring Boot WebFlux`. Aunque también habría podi
 **Fuente**
 
 - [Load Performance Testing with Apache JMeter - medium](https://medium.com/@truongbui95/load-performance-testing-with-apache-jmeter-e20b41d5a3f2)
+- [JMeter tutorial](https://howtodoinjava.com/java/library/jmeter-beginners-tutorial/)
 
 ---
 
@@ -62,3 +63,41 @@ escritorio de código abierto basada en Java, `Apache JMeter` ofrece una amplia 
 - Proporciona informes de rendimiento en múltiples formatos. Estos informes ofrecen información y métricas valiosas, lo
   que permite a los evaluadores y desarrolladores analizar e interpretar los resultados de las pruebas de manera
   efectiva.
+
+## Instalación y ejecución de Apache JMeter
+
+Para comenzar a utilizar `Apache JMeter`, siga estos pasos:
+
+1. Visite el sitio web oficial de [Apache JMeter](https://jmeter.apache.org/download_jmeter.cgi) y descargue la última
+   versión de `JMeter` como archivo `zip`.
+2. Extraiga el contenido del archivo `zip` descargado en la ubicación deseada de su computadora.
+3. Ingrese dentro de la carpeta `/bin` del directorio JMeter extraído. Observe que tenemos el archivo `jmeter.bat`,
+   el cual lo usaremos para ejecutar la aplicación de JMeter, dado que estamos en `Windows`.
+
+   ![01.png](assets/01.png)
+
+4. Podemos dar doble clic al archivo `jmeter.bat` para iniciar la aplicación de JMeter, o como en nuestro caso usar
+   nuestra propia terminal.
+
+      ````bash
+      C:\apache-jmeter-5.6.3\bin
+   
+      $ jmeter.bat
+      WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+      WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+      WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+      WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+      ================================================================================
+      Don't use GUI mode for load testing !, only for Test creation and Test debugging.
+      For load testing, use CLI Mode (was NON GUI):
+         jmeter -n -t [jmx file] -l [results file] -e -o [Path to web report folder]
+      & increase Java Heap to meet your test requirements:
+         Modify current env variable HEAP="-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m" in the jmeter batch file
+      Check : https://jmeter.apache.org/usermanual/best-practices.html
+      ================================================================================
+      ````
+
+Si la instalación fue exitosa, debería ver la siguiente pantalla.
+
+![02.png](assets/02.png)
+
