@@ -103,38 +103,65 @@ Si la instalación fue exitosa, debería ver la siguiente pantalla.
 
 ---
 
-## Ejemplo 01: [¿Cómo hacer pruebas de rendimiento con Apache JMeter?](https://www.youtube.com/watch?v=uguvCxejOJM)
+## [¿Cómo hacer pruebas de rendimiento con Apache JMeter?](https://www.youtube.com/watch?v=uguvCxejOJM)
 
 Iniciamos creando un nuevo `Test Plan` al que le llamaremos `Api Rest Authors`, dado que las pruebas la realizaremos
-contra los endpoints de nuestro controlador `AuthorController` de nuestro backend.
+contra los endpoints de nuestro controlador `AuthorController` de nuestro backend. Un plan de prueba útil se crea con
+un mínimo de 3 componentes:
+
+- `Thread Group`, contiene la simulación de varios usuarios simultáneos. Un único subproceso representa un único
+  usuario. Podemos crear cualquier cantidad de subprocesos para poner la carga deseada en la aplicación. También nos
+  ayuda a programar el retraso entre dos subprocesos y cualquier repetición de lotes de solicitudes.
+
+
+- `HTTP Request`, consiste en la configuración de la solicitud HTTP que invocará el grupo de subprocesos. Es la URL de
+  la aplicación que desea probar la carga.
+
+
+- `Listener`, ayuda a ver el resultado de todo el proceso de prueba. Hay varios listeners disponibles en `JMeter`
+  para verificar los resultados de la prueba.
 
 ![03.png](assets/example-01/03.png)
 
-Agregamos un nuevo `Thread Group` al que le llamaremos `Authors`.
+Agregamos un nuevo `Thread Group` al que le llamaremos `Authors`. Un `Thread Group` nos permite conocer el flujo de
+usuarios y simula cómo interactúan con la app.
 
 ![04.png](assets/example-01/04.png)
 
 En el `Thread Group` definimos las propiedades de los hilos.
 
-- `Number of Threads (users)`: 250, corresponde al número de usuarios o hilos que intervendrán en nuestra prueba.
-- `Ramp-up period (seconds)`: 10, significa que cada 1 segundo se irán agregando 25 hilos, en ese sentido, cuando se
-  lleguen a los 10 segundos se habrá agregado los 250 hilos.
-- `Loop Count`: 1, significa que solo se hará una pasada, es decir, la simulación de los 250 usuarios.
+- `Number of Threads (users)`, el número de usuarios o subprocesos virtuales que se simularán durante una prueba de
+  carga. Por ejemplo, si establecemos el Número de subprocesos en 250, `JMeter` simulará 250 usuarios simultáneos
+  ejecutando los pasos de prueba simultáneamente.
+
+
+- `Ramp-up period (seconds)`, se tarda un tiempo en aumentar gradualmente el número de usuarios o subprocesos virtuales
+  para alcanzar el nivel de concurrencia deseado durante una prueba de carga.
+  Ejemplo pequeño: tenemos un grupo de subprocesos con un total de 250 subprocesos y un período de aumento gradual
+  `(ramp-up period)` de 10 segundos. Durante el primer segundo, `JMeter` puede comenzar con 25 subprocesos y agregar 25
+  subprocesos adicionales cada segundo hasta alcanzar el máximo de 250 subprocesos en el décimo segundo.
+
+
+- `Loop Count`, el número de veces que se ejecutará un grupo de subprocesos durante una prueba de carga.
 
 ![05.png](assets/example-01/05.png)
 
-Ahora agregamos un `HTTP Request`, es decir una petición.
+Un `Sampler` dentro de un `Thread Group` representa una solicitud o acción individual que se envía al servidor
+de destino durante una prueba de carga. En nuestra demostración, utilizamos el `Sampler` `HTTP Request` para
+enviar una solicitud HTTP a nuestro backend. En ese sentido, agregamos un `HTTP Request`, es decir una petición.
 
 ![06.png](assets/example-01/06.png)
 
 Aquí vamos a configurar nuestra petición hacia nuestro backend. En primer lugar, realizaremos una petición al endpoint
 para listar todos los autores, por lo tanto, configuramos los detalles de la petición como el método `GET`, la dirección
-del backend, el puerto, y el path.
+del backend, el puerto, y el path. En este `HTTP Request` simularemos que cada una de las solicitudes proviene de los
+250 usuarios.
 
 ![07.png](assets/example-01/07.png)
 
-Ahora, vamos a agregar a nuestra petición 3 `listeners`: `View Result Tree`, `Summary Report` y `Response Time Graph`.
-Estos listeners nos van a permitir dar seguimiento a la petición que hagamos como a la respuesta que obtengamos.
+Los `listeners` capturan y muestran los resultados de la prueba, lo que proporciona información valiosa sobre el
+rendimiento y el comportamiento de la aplicación probada. En nuestra demostración, vamos a ver 3 listeners:
+`View Result Tree`, `Summary Report` y `Response Time Graph`.
 
 ![08.png](assets/example-01/08.png)
 
@@ -151,6 +178,11 @@ de nuestro proyecto de backend.
 Finalizada la prueba, revisamos los listeners. Empezamos revisando el `View Results Tree` y en la parte derecha damos
 click a uno de los resultados cuyo ícono es de color verde. Al dar clic a uno de ellos podemos observar en la parte
 más derecha aún que se muestran opciones como el `Response Body`, `Response Data`, etc.
+
+Al realizar pruebas de carga, debemos tener umbrales o restricciones específicos para los valores de tiempo de carga y
+latencia. Estos umbrales ayudan a definir niveles de rendimiento aceptables y garantizar que la aplicación cumpla con
+los criterios deseados. Por ejemplo, puede establecer un requisito de tiempo de carga máximo o una latencia máxima
+permitida para garantizar una experiencia de usuario óptima.
 
 ![11.png](assets/example-01/11.png)
 
