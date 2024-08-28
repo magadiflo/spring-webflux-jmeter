@@ -101,3 +101,104 @@ Si la instalación fue exitosa, debería ver la siguiente pantalla.
 
 ![02.png](assets/02.png)
 
+---
+
+## Ejemplo 01: [¿Cómo hacer pruebas de rendimiento con Apache JMeter?](https://www.youtube.com/watch?v=uguvCxejOJM)
+
+Iniciamos creando un nuevo `Test Plan` al que le llamaremos `Api Rest Authors`, dado que las pruebas la realizaremos
+contra los endpoints de nuestro controlador `AuthorController` de nuestro backend.
+
+![03.png](assets/example-01/03.png)
+
+Agregamos un nuevo `Thread Group` al que le llamaremos `Authors`.
+
+![04.png](assets/example-01/04.png)
+
+En el `Thread Group` definimos las propiedades de los hilos.
+
+- `Number of Threads (users)`: 250, corresponde al número de usuarios o hilos que intervendrán en nuestra prueba.
+- `Ramp-up period (seconds)`: 10, significa que cada 1 segundo se irán agregando 25 hilos, en ese sentido, cuando se
+  lleguen a los 10 segundos se habrá agregado los 250 hilos.
+- `Loop Count`: 1, significa que solo se hará una pasada, es decir, la simulación de los 250 usuarios.
+
+![05.png](assets/example-01/05.png)
+
+Ahora agregamos un `HTTP Request`, es decir una petición.
+
+![06.png](assets/example-01/06.png)
+
+Aquí vamos a configurar nuestra petición hacia nuestro backend. En primer lugar, realizaremos una petición al endpoint
+para listar todos los autores, por lo tanto, configuramos los detalles de la petición como el método `GET`, la dirección
+del backend, el puerto, y el path.
+
+![07.png](assets/example-01/07.png)
+
+Ahora, vamos a agregar a nuestra petición 3 `listeners`: `View Result Tree`, `Summary Report` y `Response Time Graph`.
+Estos listeners nos van a permitir dar seguimiento a la petición que hagamos como a la respuesta que obtengamos.
+
+![08.png](assets/example-01/08.png)
+
+Damos en el botón triangular verde para ejecutar la prueba, nos aparece el cuadro de diálogo donde nos pide guardar el
+test.
+
+![09.png](assets/example-01/09.png)
+
+Ahora sí, vemos en la interfaz de `JMeter` que la petición se está ejecutando. Lo mismo podemos observar en la consola
+de nuestro proyecto de backend.
+
+![10.png](assets/example-01/10.png)
+
+Finalizada la prueba, revisamos los listeners. Empezamos revisando el `View Results Tree` y en la parte derecha damos
+click a uno de los resultados cuyo ícono es de color verde. Al dar clic a uno de ellos podemos observar en la parte
+más derecha aún que se muestran opciones como el `Response Body`, `Response Data`, etc.
+
+![11.png](assets/example-01/11.png)
+
+En el siguiente listener `Summary Report`, vemos detalles estadísticos de la prueba que acabamos de hacer, tales como
+el promedio, el mínimo, el máximo, la desviación estándar, etc.
+
+![12.png](assets/example-01/12.png)
+
+Finalmente, en el último listener `Response Time Graph` vemos gráficamente el resultado de nuestra prueba.
+
+![13.png](assets/example-01/13.png)
+
+Ahora, vamos a agregar un nuevo `HTTP Request` para hacer la prueba del registrar un autor. De la misma manera que
+hicimos con el listar, vamos a configurar los detalles de la petición, como el método que en este caso es `POST`.
+Como parte importante de esta nueva petición es que ahora vamos a enviar un `json` en el cuerpo de la petición, por lo
+que debemos agregar nuestro json en la opción `Body Data`. Todavía no hacer la petición.
+
+![14.png](assets/example-01/14.png)
+
+Como en esta oportunidad vamos a enviar un json al backend para registrar un autor, es muy importante agregar un
+`HTTP Header Manager`.
+
+![15.png](assets/example-01/15.png)
+
+En este `HTTP Header Manager` vamos a configurar el `Content-Type: application/json`, dado que estamos enviando en el
+body un json. Si no configuramos esta opción, al momento de hacer la petición al backend experimentaremos un error.
+Todavía no hacer la petición.
+
+![16.png](assets/example-01/16.png)
+
+Antes de hacer las peticiones del registro de autor al backend, necesitamos deshabilitar los otros `HTTP Request` que
+tengamos disponible, para que cuando ejecutemos `JMeter` se enfoque únicamente en nuestro request.
+
+![17.png](assets/example-01/17.png)
+
+Ahora sí, ejecutamos la aplicación y vemos que se está registrando el autor unas 250 veces.
+
+![18.png](assets/example-01/18.png)
+
+A continuación agregamos otro `HTTP Request`. En este caso agregamos un request para poder actualizar un autor.
+
+![19.png](assets/example-01/19.png)
+
+Luego de haber ejecutado la prueba, revisamos el listener `Summary Report` donde podemos observar que obtuvimos una
+desviación standard de 3.83.
+
+![20.png](assets/example-01/20.png)
+
+Finalmente, hacemos lo mismo con los otros `HTTP Request`, creamos el ver autor, actualizar autor, eliminar autor.
+
+![21.png](assets/example-01/21.png)
